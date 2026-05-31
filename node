@@ -22,6 +22,8 @@ void print(Node *h){
     }
 }
 
+//find node that has the wanted value
+
 Node *find(Node *head, int val){
     Node *p=head;
     while(p!=NULL){
@@ -33,36 +35,108 @@ Node *find(Node *head, int val){
     return NULL;
 }
 
+//insert first
+
 Node *insert(Node *head, int v){
-    Node *makenode(v);
+    Node *q=makenode(v);
     if(head==NULL){
-        return makenode(v);
+        return q;
     } else {
-        makenode->next=head;
-        head=makenode;
+        q->next=head;
+        head=q;
     }
     return head;
 }
 
-Node *findlast(Node *head){
+//insert last
+
+Node *last(Node *head){
     Node *p=head;
+    if(p==NULL){
+        return NULL;
+    }
     while(p!=NULL){
         if(p->next==NULL){
-            reuturn p;
+            return p;
         }
-        p=p->next;
+        p=p->next
     }
     return NULL;
 }
 
-Node *insertlast(Node *findlast, int v){
-    Node *makenode(v);
-    if(findlast==NULL){
-        return makenode(v);
-    } else {
-        Node *lastnode=findlast(head);
-        findlast->next=makenode;
+Node *insertlast(Node *head, int v){
+    Node *q=makenode(v);
+    if(head==NULL){
+        return q;
     }
+    last(head)->next=q;
+    return head;
+}
+
+//insert prev node
+
+Node *prev(Node *head, Node *p){
+    Node *q=head;
+    while(q!=NULL){
+        if(q->next==p){
+            return q;
+        }
+        q=q->next;
+    }
+    return NULL;
+}
+
+Node *insertprev(Node *head, Node*p, int v){
+    Node *q=makenode(v);
+    Node *pp=prev(head, p);
+    if(p==NULL && head!=NULL){
+        return head;
+    }
+    if(pp==NULL){
+        if(head==NULL){
+            return q; 
+        }
+        q->next=p;
+        head=q;
+        return head;
+    }
+    q->next=p;
+    pp->next=q;
+    return head;
+}
+
+//Remove
+
+Node *remove(Node *head, Node *p){
+    if(head==NULL || p==NULL){
+        return head;
+    }
+    if(head==p){
+        head=head->next;
+        free(p);
+        return head;
+    } else {
+        head->next=remove(head->next, p);
+        return head;
+    }
+    
+}
+
+
+//Reverse
+Node *reverse(Node *head){
+    Node *next, *pre;
+    Node *cur=head;
+    pre=NULL;
+    next=NULL;
+    while(cur!=NULL){
+        next=cur->next;
+        cur->next=pre;
+        pre=cur;
+        cur=next;
+    }
+    head=pre;
+    return head;
 }
 
 int main(){
